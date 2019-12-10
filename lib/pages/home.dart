@@ -16,9 +16,9 @@ class HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Tile("Raporty", 'img/raport.png', 'routeTo'),
-            Tile("Zadania", 'img/staff.png', 'routeTo'),
-            Tile("Przesyłki", 'img/box.png', 'routeTo')
+            Tile("Raporty", 'img/raport.png', '/raports'),
+            Tile("Zadania", 'img/staff.png', '/tasks'),
+            Tile("Przesyłki", 'img/box.png', '/shipping')
           ],
         ),
       )

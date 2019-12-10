@@ -27,7 +27,7 @@ class _TileState extends State<Tile> {
                         fontSize: 24.0,
                         color: Color.fromARGB(0xff, 0xd7, 0x64, 0x00))),
                         onPressed: () {
-                          
+                          Navigator.pushNamed(context, widget.routeTo);
                         },
                 )
                 ],

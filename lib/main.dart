@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/' : (context) => HomePage()
+        '/' : (context) => HomePage(),
+        '/raports' : (context) => RaportsPage(),
+        '/tasks' : (context) => TasksPage(),
+        '/shipping' : (context) => ShippingPage()
       },
       //home: MyHomePage(title: 'Koordynacja serwisu'),
     );
