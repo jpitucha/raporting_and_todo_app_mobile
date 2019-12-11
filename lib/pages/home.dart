@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/tile.dart';
+import '../widgets/iconTile.dart';
 
 class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
@@ -16,9 +16,9 @@ class HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Tile("Raporty", 'img/raport.png', '/raports'),
-            Tile("Zadania", 'img/staff.png', '/tasks'),
-            Tile("Przesyłki", 'img/box.png', '/shipping')
+            IconTile("Raporty", 'img/raport.png', '/raports'),
+            IconTile("Zadania", 'img/staff.png', '/tasks'),
+            IconTile("Przesyłki", 'img/box.png', '/shipping')
           ],
         ),
       )
