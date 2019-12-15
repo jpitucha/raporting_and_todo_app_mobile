@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/tile.dart';
+import '../widgets/comboBox.dart';
+import '../widgets/daySelector.dart';
 import '../pack.dart';
 
 enum ConfirmAction { CANCEL, ACCEPT }
@@ -10,18 +12,85 @@ class ShippingPage extends StatefulWidget {
 
 class ShippingPageState extends State<ShippingPage> {
   final List<Pack> packages = List<Pack>();
+  final List<String> companies = List<String>();
+  final List<String> statuses = List<String>();
+  String dropdownValue;
 
 @override
   void initState() {
-    packages.add(Pack("1", "W trakcie"));
-    packages.add(Pack("2", "Oczekująca"));
+    packages.add(Pack("Company 1", DateTime.parse("2019-01-01 00:00:00.000"), "W trakcie"));
+    packages.add(Pack("Company 2", DateTime.parse("2019-01-01 00:00:00.000"), "Oczekująca"));
+    companies.add("Company 1");
+    companies.add("Company 2");
+    companies.add("Company 3");
+    statuses.add("W trakcie");
+    statuses.add("Oczekująca");
     super.initState();
+  }
+
+  Future<Pack> _editItemDialog(BuildContext context, Pack p) async {
+    String newSender = p.sender;
+    String newDate = p.date.toString().split(" ").elementAt(0);
+    String newStatus = p.status;
+    
+    return showDialog<Pack>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Edytuj paczuchę"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Nadawca: "),
+                ComboBox(newSender, companies, (String newValue) {
+                  setState(() {
+                    newSender = newValue;
+                  });
+                })
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Status:"),
+                ComboBox(newStatus, statuses, (String newValue) {
+                  setState(() {
+                    newStatus = newValue;
+                  });
+                })
+              ],
+            ),
+            DaySelector(DateTime.parse(newDate + " 00:00:00.000"), (DateTime dt) {
+              newDate = dt.toString().split(" ").elementAt(0);
+            })
+          ]),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("ZAMKNIJ"),
+              onPressed: () {
+                Navigator.of(context).pop(Pack(p.sender, p.date, p.status));
+              },
+            ),
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(Pack(newSender, DateTime.parse(newDate + " 00:00:00.000"), newStatus));
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 
   Future<ConfirmAction> _deleteConfirmDialog(BuildContext context) async {
   return showDialog<ConfirmAction>(
     context: context,
-    barrierDismissible: false, // user must tap button for close dialog!
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Czy aby na pewno?'),
@@ -55,9 +124,14 @@ class ShippingPageState extends State<ShippingPage> {
       body: ListView.builder(
         itemCount: packages.length,
         itemBuilder: (BuildContext context, int index) {
-          return Tile(packages[index].title, packages[index].status,
-          () {
-            //edit
+          return Tile(packages[index].sender + " - " + packages.elementAt(index).date.toString().split(" ").elementAt(0), packages[index].status,
+          () async {
+            final Pack edited = await _editItemDialog(context, packages.elementAt(index));
+            if (edited != packages[index]) {
+              setState(() {
+                packages[index] = edited;
+              });
+            }
           },
           () async {
             final ConfirmAction choice = await _deleteConfirmDialog(context);
@@ -73,6 +147,7 @@ class ShippingPageState extends State<ShippingPage> {
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
         onPressed: () {
+          //add
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
