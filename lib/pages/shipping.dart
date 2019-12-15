@@ -19,7 +19,7 @@ class ShippingPageState extends State<ShippingPage> {
 @override
   void initState() {
     packages.add(Pack("Company 1", DateTime.parse("2019-01-01 00:00:00.000"), "W trakcie"));
-    packages.add(Pack("Company 2", DateTime.parse("2019-01-01 00:00:00.000"), "Oczekująca"));
+    packages.add(Pack("Company 2", DateTime.parse("2019-01-02 00:00:00.000"), "Oczekująca"));
     companies.add("Company 1");
     companies.add("Company 2");
     companies.add("Company 3");
@@ -115,6 +115,65 @@ class ShippingPageState extends State<ShippingPage> {
   );
 }
 
+Future<Pack> _addItemDialog(BuildContext context) async {
+  String tmpCompany = companies.elementAt(0);
+  String tmpStatus = statuses.elementAt(0);
+  DateTime tmpDate = DateTime.now();
+  return showDialog<Pack>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Dodaj paczuchę"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Nadawca:"),
+                ComboBox(companies.elementAt(0), companies, (String newValue) {
+                  if (newValue != null) {
+                    tmpCompany = newValue;
+                  }
+                })
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Status:"),
+                ComboBox(statuses.elementAt(0), statuses, (String newValue) {
+                  if (newValue != null) {
+                    tmpStatus = newValue;
+                  }
+                })
+              ],
+            ),
+            DaySelector(DateTime.now(), (DateTime newValue) {
+              tmpDate = newValue;
+            })
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+              child: Text("ZAMKNIJ"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(Pack(tmpCompany, tmpDate, tmpStatus));
+              },
+            )
+        ],
+      );
+    }
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,8 +205,13 @@ class ShippingPageState extends State<ShippingPage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
-        onPressed: () {
-          //add
+        onPressed: () async {
+          final newPack = await _addItemDialog(context);
+          if (newPack.sender != null && newPack.date != null && newPack.status != null) {
+            setState(() {
+              packages.insert(0, newPack);
+            });
+          }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
