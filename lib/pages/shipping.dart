@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../widgets/tile.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
-import '../pack.dart';
+import '../models/pack.dart';
+import '../utils/databaseManager.dart';
+import 'package:sqflite/sqflite.dart';
 
 enum ConfirmAction { CANCEL, ACCEPT }
 
@@ -32,7 +34,7 @@ class ShippingPageState extends State<ShippingPage> {
   Future<Pack> _addItemDialog(BuildContext context) async {
     String tmpSender = companies.elementAt(0);
     String tmpStatus = statuses.elementAt(0);
-    DateTime tmpDate = DateTime.now();
+    DateTime tmpDate = DateTime.now(); 
 
     return showDialog<Pack>(
         context: context,
