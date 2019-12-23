@@ -3,8 +3,6 @@ import '../widgets/tile.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
 import '../models/pack.dart';
-import '../utils/databaseManager.dart';
-import 'package:sqflite/sqflite.dart';
 
 enum ConfirmAction { CANCEL, ACCEPT }
 

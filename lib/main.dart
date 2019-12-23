@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Koordynacja serwisu',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark
+          primarySwatch: Colors.blue,
+          brightness: Brightness.dark
       ),
       initialRoute: '/',
       routes: {

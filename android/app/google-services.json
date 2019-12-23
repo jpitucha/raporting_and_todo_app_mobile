@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "895209933070",
+    "firebase_url": "https://raporting-and-todo.firebaseio.com",
+    "project_id": "raporting-and-todo",
+    "storage_bucket": "raporting-and-todo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895209933070:android:f6f5b338e178335eaaef5f",
+        "android_client_info": {
+          "package_name": "com.example.raporting_and_todo_app_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895209933070-4idr3nir1gvv7fml5q1jlsq025hrr12e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3qMDH_AEPvG6_jOnhOMkiuuS8y-JkexE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895209933070-4idr3nir1gvv7fml5q1jlsq025hrr12e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
