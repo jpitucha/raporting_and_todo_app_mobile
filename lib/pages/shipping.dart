@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import '../widgets/tile.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
@@ -18,9 +19,9 @@ class ShippingPageState extends State<ShippingPage> {
   @override
   void initState() {
     packages.add(Pack(
-        "Company 1", DateTime.parse("2019-01-01 00:00:00.000"), "W trakcie"));
+        "1", "Company 1", DateTime.parse("2019-01-01 00:00:00.000"), "W trakcie"));
     packages.add(Pack(
-        "Company 2", DateTime.parse("2019-01-02 00:00:00.000"), "Oczekująca"));
+        "2", "Company 2", DateTime.parse("2019-01-02 00:00:00.000"), "Oczekująca"));
     companies.add("Company 1");
     companies.add("Company 2");
     companies.add("Company 3");
@@ -67,9 +68,9 @@ class ShippingPageState extends State<ShippingPage> {
               ),
               FlatButton(
                 child: Text("OK"),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pop(Pack(tmpSender, tmpDate, tmpStatus));
+                onPressed: () async {
+                  String id = await DatabaseService().addShipment(tmpSender, tmpDate.toString().split(" ").elementAt(0), tmpStatus);
+                  Navigator.of(context).pop(Pack(id, tmpSender, tmpDate, tmpStatus));
                 },
               )
             ],
@@ -108,13 +109,14 @@ class ShippingPageState extends State<ShippingPage> {
               FlatButton(
                 child: Text("ZAMKNIJ"),
                 onPressed: () {
-                  Navigator.of(context).pop(Pack(p.sender, p.date, p.status));
+                  Navigator.of(context).pop(Pack(p.id, p.sender, p.date, p.status));
                 },
               ),
               FlatButton(
                 child: Text("OK"),
                 onPressed: () {
-                  Navigator.of(context).pop(Pack(tmpSender,
+                  DatabaseService().editShipment(p.id, tmpSender, tmpDate, tmpStatus);
+                  Navigator.of(context).pop(Pack(p.id, tmpSender,
                       DateTime.parse(tmpDate + " 00:00:00.000"), tmpStatus));
                 },
               )
@@ -123,7 +125,7 @@ class ShippingPageState extends State<ShippingPage> {
         });
   }
 
-  Future<ConfirmAction> _deleteConfirmDialog(BuildContext context) async {
+  Future<ConfirmAction> _deleteConfirmDialog(BuildContext context, Pack p) async {
     return showDialog<ConfirmAction>(
       context: context,
       barrierDismissible: false,
@@ -141,6 +143,7 @@ class ShippingPageState extends State<ShippingPage> {
             FlatButton(
               child: const Text('OK'),
               onPressed: () {
+                DatabaseService().deleteShipment(p.id);
                 Navigator.of(context).pop(ConfirmAction.ACCEPT);
               },
             )
@@ -177,7 +180,7 @@ class ShippingPageState extends State<ShippingPage> {
                 });
               }
             }, () async {
-              final ConfirmAction choice = await _deleteConfirmDialog(context);
+              final ConfirmAction choice = await _deleteConfirmDialog(context, packages.elementAt(index));
               if (choice == ConfirmAction.ACCEPT) {
                 setState(() {
                   packages.removeAt(index);

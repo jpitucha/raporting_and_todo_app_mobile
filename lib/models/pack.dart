@@ -1,13 +1,14 @@
 class Pack {
+  String id;
   String sender;
   DateTime date;
   String status;
 
-  Pack(this.sender, this.date, this.status);
+  Pack(this.id, this.sender, this.date, this.status);
 
   @override
   String toString() {
-    return '{ ${this.sender}, ${this.date.toString().split(" ").elementAt(0)}, ${this.status} }';
+    return '{ ${this.id}, ${this.sender}, ${this.date.toString().split(" ").elementAt(0)}, ${this.status} }';
   }
 
   Map<String, dynamic> toMap() {
