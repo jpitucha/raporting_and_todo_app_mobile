@@ -7,8 +7,6 @@ class DeleteShipment extends StatefulWidget {
 class DeleteShipmentState extends State<DeleteShipment> {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      
-    );
+    return null;
   }
 }

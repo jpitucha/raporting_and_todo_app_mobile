@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="raporting_and_todo_app_mobile"
+        android:label="Raporty i zadania"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

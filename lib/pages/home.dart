@@ -12,6 +12,41 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Koordynacja serwisu'),
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("CZEŚĆ", style: TextStyle(fontSize: 32.0),),
+                  Text("JAKUB", style: TextStyle(fontSize: 26.0)),
+                  Icon(Icons.person, size: 64.0,)
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.local_shipping),
+              title: Text("Nadawcy"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.picture_in_picture_alt),
+              title: Text("Ekrany"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text("Pracownicy"),
+              onTap: () {},
+            )
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
