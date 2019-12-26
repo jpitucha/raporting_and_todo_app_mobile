@@ -32,17 +32,23 @@ class HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.local_shipping),
               title: Text("Nadawcy"),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/senders');
+              },
             ),
             ListTile(
               leading: Icon(Icons.picture_in_picture_alt),
               title: Text("Ekrany"),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/screens');
+              },
             ),
             ListTile(
               leading: Icon(Icons.person),
               title: Text("Pracownicy"),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/employees');
+              },
             )
           ],
         ),
