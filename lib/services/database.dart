@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/task.dart';
+import '../models/pack.dart';
 
 class DatabaseService {
 
@@ -6,45 +8,46 @@ class DatabaseService {
   final CollectionReference shipmentsCollection  = Firestore.instance.collection('shipments');
   final CollectionReference tasksCollection = Firestore.instance.collection('tasks');
 
-  Future<String> addTask(String employee, String date, String content) async {
+  Future<String> addTask(Task t) async {
     DocumentReference dr = await tasksCollection.add({
-      'employee': employee,
-      'date': date,
-      'content': content
+      'employee': t.employee,
+      'date': t.date,
+      'content': t.content
     });
     return dr.documentID;
   }
 
-  Future editTask(String id, String employee, String date, String content) async {
-    await tasksCollection.document(id).setData({
-      'employee': employee,
-      'date': date,
-      'content': content
+  Future editTask(Task t) async {
+    await tasksCollection.document(t.id).setData({
+      'employee': t.employee,
+      'date': t.date,
+      'content': t.content
     });
   }
 
-  Future deleteTask(String id) async {
-    tasksCollection.document(id).delete();
+  Future deleteTask(Task t) async {
+    tasksCollection.document(t.id).delete();
   }
 
-  Future<String> addShipment(String name, String date, String status) async {
+  Future<String> addShipment(Pack p) async {
     DocumentReference dr =  await shipmentsCollection.add({
-      'name': name,
-      'date': date,
-      'status': status
+      'sender': p.sender,
+      'date': p.date,
+      'status': p.status
     });
     return dr.documentID;
   }
 
-  Future editShipment(String id, String name, String date, String status) async {
-    await shipmentsCollection.document(id).setData({
-      'name': name,
-      'date': date,
-      'status': status
+  Future editShipment(Pack p) async {
+    await shipmentsCollection.document(p.id).setData({
+      'sender': p.sender,
+      'date': p.date,
+      'status': p.status
     });
   }
 
-  Future deleteShipment(String id) async {
-    await shipmentsCollection.document(id).delete();
+  Future deleteShipment(Pack p) async {
+    await shipmentsCollection.document(p.id).delete();
   }
+ 
  }

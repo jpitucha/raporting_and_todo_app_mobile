@@ -13,6 +13,7 @@ class Pack {
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = Map<String, dynamic>();
+    map['id'] = id;
     map['sender'] = sender;
     map['date'] = date;
     map['status'] = status;
@@ -20,6 +21,7 @@ class Pack {
   }
 
   Pack.fromMap(Map<String, dynamic> map) {
+    this.id = map['id'];
     this.sender = map['sender'];
     this.date = map['date'];
     this.status = map['status'];

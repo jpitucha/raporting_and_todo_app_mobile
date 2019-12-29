@@ -6,7 +6,7 @@ import './pages/tasks.dart';
 import './pages/employees.dart';
 import './pages/screens.dart';
 import './pages/senders.dart';
-
+import './pages/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,11 +23,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/' : (context) => HomePage(),
         '/raports' : (context) => RaportsPage(),
-        '/tasks' : (context) => TasksPage(),
+        '/tasks' : (context) => LoginPage(),
         '/shipping' : (context) => ShippingPage(),
         '/employees' : (context) => EmployeesPage(),
         '/screens' : (context) => ScreensPage(),
-        '/senders' : (context) => SendersPage()
+        '/senders' : (context) => SendersPage(),
+        '/login' : (context) => LoginPage()
       },
       //home: MyHomePage(title: 'Koordynacja serwisu'),
     );

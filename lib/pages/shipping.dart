@@ -69,7 +69,7 @@ class ShippingPageState extends State<ShippingPage> {
               FlatButton(
                 child: Text("OK"),
                 onPressed: () async {
-                  String id = await DatabaseService().addShipment(tmpSender, tmpDate.toString().split(" ").elementAt(0), tmpStatus);
+                  String id = await DatabaseService().addShipment(Pack(null, tmpSender, tmpDate, tmpStatus));
                   Navigator.of(context).pop(Pack(id, tmpSender, tmpDate, tmpStatus));
                 },
               )
@@ -115,7 +115,7 @@ class ShippingPageState extends State<ShippingPage> {
               FlatButton(
                 child: Text("OK"),
                 onPressed: () {
-                  DatabaseService().editShipment(p.id, tmpSender, tmpDate, tmpStatus);
+                  DatabaseService().editShipment(p);
                   Navigator.of(context).pop(Pack(p.id, tmpSender,
                       DateTime.parse(tmpDate + " 00:00:00.000"), tmpStatus));
                 },
@@ -143,7 +143,7 @@ class ShippingPageState extends State<ShippingPage> {
             FlatButton(
               child: const Text('OK'),
               onPressed: () {
-                DatabaseService().deleteShipment(p.id);
+                DatabaseService().deleteShipment(p);
                 Navigator.of(context).pop(ConfirmAction.ACCEPT);
               },
             )
