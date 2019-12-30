@@ -18,8 +18,8 @@ class _IconTileState extends State<IconTile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Image.asset(widget.icon, height: 115.0),
-                SizedBox(height: 10.0,),
+                Image.asset(widget.icon, height: 100.0),
+                SizedBox(height: 10.0),
                 FlatButton(
                   child: Text(widget.text,
                     textAlign: TextAlign.center,

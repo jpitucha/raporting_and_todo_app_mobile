@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raporting_and_todo_app_mobile/services/auth.dart';
 import '../widgets/iconTile.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,14 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Koordynacja serwisu'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              AuthService().signOut();
+            },
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(

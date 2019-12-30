@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:raporting_and_todo_app_mobile/services/auth.dart';
+import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
@@ -11,10 +13,12 @@ class LoginPageState extends State<LoginPage> {
   String _password = '';
   bool _remember = false;
   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? Loading() : Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
@@ -76,10 +80,18 @@ class LoginPageState extends State<LoginPage> {
                   RaisedButton(
                     color: Colors.blue,
                     child: Text('ZALOGUJ'),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        print(_email);
-                        print(_password);
+                        setState(() {
+                          _loading = true;
+                        });
+                        dynamic result = await _auth.signInWithEmailAndPassword(_email, _password);
+                        if (result == null) {
+                          setState(() {
+                            _loading = false;
+                          });
+                          print('Coś poszło nie tak');
+                        }
                       }
                     },
                   )
