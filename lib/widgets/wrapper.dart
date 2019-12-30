@@ -7,7 +7,6 @@ import '../pages/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Wrapper extends StatelessWidget {
-
   final storage = FlutterSecureStorage();
   String email;
   String password;
@@ -15,12 +14,13 @@ class Wrapper extends StatelessWidget {
   Future tryToLoginWithSavedCredentials() async {
     email = await storage.read(key: 'email');
     password = await storage.read(key: 'password');
-    AuthService().signInWithEmailAndPassword(email, password);
+    if (email.isNotEmpty && password.isNotEmpty) {
+      AuthService().signInWithEmailAndPassword(email, password);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-   
     final user = Provider.of<User>(context);
 
     tryToLoginWithSavedCredentials();

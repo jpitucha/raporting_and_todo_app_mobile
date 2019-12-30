@@ -4,7 +4,7 @@ class Pack {
   DateTime date;
   String status;
 
-  Pack(this.id, this.sender, this.date, this.status);
+  Pack({this.id, this.sender, this.date, this.status});
 
   @override
   String toString() {
