@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => Wrapper(),
           '/raports': (context) => RaportsPage(),
-          '/tasks': (context) => LoginPage(),
+          '/tasks': (context) => TasksPage(),
           '/shipping': (context) => ShippingPage(),
           '/employees': (context) => EmployeesPage(),
           '/screens': (context) => ScreensPage(),

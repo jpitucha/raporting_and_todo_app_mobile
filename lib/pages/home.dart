@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/services/auth.dart';
 import '../widgets/iconTile.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
+
+  final storage = FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +18,9 @@ class HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
-            onPressed: () {
+            onPressed: () async {
               AuthService().signOut();
+              await storage.deleteAll();
             },
           )
         ],

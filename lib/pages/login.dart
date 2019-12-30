@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/services/auth.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
@@ -15,6 +14,7 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   bool _loading = false;
+  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +91,9 @@ class LoginPageState extends State<LoginPage> {
                             _loading = false;
                           });
                           print('Coś poszło nie tak');
+                        } else {
+                          await storage.write(key: 'email', value: _email);
+                          await storage.write(key: 'password', value: _password);
                         }
                       }
                     },
