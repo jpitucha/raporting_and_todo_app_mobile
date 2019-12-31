@@ -18,8 +18,8 @@ class HomePageState extends State<HomePage> {
             IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () async {
-                AuthService().signOut();
                 await storage.deleteAll();
+                AuthService().signOut();
               },
             )
           ],

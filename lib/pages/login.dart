@@ -90,10 +90,11 @@ class LoginPageState extends State<LoginPage> {
                           setState(() {
                             _loading = false;
                           });
-                          print('Coś poszło nie tak');
                         } else {
-                          await storage.write(key: 'email', value: _email);
-                          await storage.write(key: 'password', value: _password);
+                          if (_remember) {
+                            await storage.write(key: 'email', value: _email);
+                            await storage.write(key: 'password', value: _password);
+                          }
                         }
                       }
                     },

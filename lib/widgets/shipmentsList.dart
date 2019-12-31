@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import '../models/pack.dart';
 import 'package:provider/provider.dart';
 import '../widgets/shipmentTile.dart';
@@ -98,22 +99,30 @@ class ShipmentsListState extends State<ShipmentsList> {
 
   @override
   Widget build(BuildContext context) {
-    final shipments = Provider.of<List<Pack>>(context);
-    return ListView.builder(
-            itemCount: shipments.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ShipmentTile(
-                  shipments.elementAt(index).sender +
-                      " - " +
-                      shipments
+    return StreamBuilder<List<Pack>>(
+      stream: DatabaseService().shipments,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Pack> data = snapshot.data;
+          return ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ShipmentTile(
+                data.elementAt(index).sender +
+                    " - " + data
                           .elementAt(index)
                           .date
                           .toString()
                           .split(" ")
                           .elementAt(0),
-                  shipments.elementAt(index).status,
-                  () => _editShipmentDialog(context, shipments.elementAt(index)),
-                  () => _deleteShipmentDialog(context, shipments.elementAt(index)));
+                  data.elementAt(index).status,
+                  () => _editShipmentDialog(context, data.elementAt(index)),
+                  () => _deleteShipmentDialog(context, data.elementAt(index)));
             });
+        } else {
+          return Loading();
+        }
+      },
+    );
   }
 }

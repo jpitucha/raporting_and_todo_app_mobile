@@ -14,8 +14,10 @@ class Wrapper extends StatelessWidget {
   Future tryToLoginWithSavedCredentials() async {
     email = await storage.read(key: 'email');
     password = await storage.read(key: 'password');
-    if (email.isNotEmpty && password.isNotEmpty) {
-      AuthService().signInWithEmailAndPassword(email, password);
+    if (email != null && password != null) {
+      if (email.isNotEmpty && password.isNotEmpty) {
+        AuthService().signInWithEmailAndPassword(email, password);
+      }
     }
   }
 
