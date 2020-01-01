@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/shipmentsList.dart';
-import '../widgets/shipmentTile.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
 import '../models/pack.dart';
