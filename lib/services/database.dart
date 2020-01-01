@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:raporting_and_todo_app_mobile/models/sender.dart';
 import '../models/task.dart';
 import '../models/pack.dart';
 import '../models/user.dart';
@@ -31,7 +32,7 @@ class DatabaseService {
   List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return Employee(
-        uid: doc.data['id'],
+        id: doc.data['id'],
         name: doc.data['name'],
         role: doc.data['role']
       );
@@ -49,6 +50,15 @@ class DatabaseService {
     }).toList();
   }
 
+  List<Sender> _senderListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return Sender(
+        id: doc.data['id'],
+        name: doc.data['name']
+      );
+    }).toList();
+  }
+
   Stream<List<Pack>> get shipments {
     return shipmentsCollection.snapshots().map(_packListFromSnapshot);
   }
@@ -59,6 +69,56 @@ class DatabaseService {
 
   Stream<List<Task>> get tasks {
     return tasksCollection.snapshots().map(_taskListFromSnapshot);
+  }
+
+  Stream<List<Sender>> get senders {
+    return sendersCollection.snapshots().map(_senderListFromSnapshot);
+  }
+
+  Future<String> addEmployee(Employee e) async {
+    DocumentReference dr = await employeesCollection.add({
+      'id': e.id,
+      'name': e.name,
+      'role': e.role 
+    });
+    return dr.documentID;
+  }
+
+  Future editEmployee({String id, String name = '', String role = ''}) async {
+    if (name == '' && role == '') {
+      await employeesCollection.document(id).updateData({'id': id});
+    }
+    if (name != '') {
+      await employeesCollection.document(id).updateData({'name': name});
+    }
+    if (role != '') {
+      await employeesCollection.document(id).updateData({'role': role});
+    }
+  }
+
+  Future deleteEmployee(Employee e) async {
+    await employeesCollection.document(e.id).delete();
+  }
+
+  Future<String> addSender(Sender s) async {
+    DocumentReference dr = await sendersCollection.add({
+      'id': s.id,
+      'name': s.name
+    });
+    return dr.documentID;
+  }
+
+  Future editSender({String id, String name = ''}) async {
+    if (name == '') {
+      await sendersCollection.document(id).updateData({'id': id});
+    }
+    if (name != '') {
+      await sendersCollection.document(id).updateData({'name': name});
+    }
+  }
+
+  Future deleteSender(Sender s) async {
+    await sendersCollection.document(s.id).delete();
   }
 
   Future<String> addTask(Task t) async {

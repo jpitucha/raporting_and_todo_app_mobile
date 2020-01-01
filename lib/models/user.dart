@@ -1,7 +1,7 @@
 class Employee {
-  final String uid;
+  final String id;
   final String name;
   final String role;
 
-  Employee ({this.uid, this.name, this.role});
+  Employee ({this.id, this.name, this.role});
 }

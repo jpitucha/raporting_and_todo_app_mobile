@@ -4,15 +4,14 @@ import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/userTile.dart';
-import 'package:raporting_and_todo_app_mobile/widgets/wrapper.dart';
 
 class EmployeesList extends StatefulWidget {
   EmployeesListState createState() => EmployeesListState();
 }
 
-Future<Employee> _editUserDialog(BuildContext context, Employee u) {
-  String tmpRole = u.role;
-  String tmpName = u.name;
+Future<Employee> _editUserDialog(BuildContext context, Employee e) {
+  String tmpRole = e.role;
+  String tmpName = e.name;
 
   return showDialog(
     context: context,
@@ -49,7 +48,12 @@ Future<Employee> _editUserDialog(BuildContext context, Employee u) {
           FlatButton(
             child: Text("OK"),
             onPressed: () {
-              //db update
+              if (tmpRole != e.role) {
+                DatabaseService().editEmployee(id: e.id, role: tmpRole);
+              }
+              if (tmpName != e.name) {
+                DatabaseService().editEmployee(id: e.id, name: tmpName);
+              }
               Navigator.of(context).pop();
             },
           )
@@ -59,7 +63,7 @@ Future<Employee> _editUserDialog(BuildContext context, Employee u) {
   );
 }
 
-Future _deleteUserDialog(BuildContext context, Employee u) {
+Future _deleteUserDialog(BuildContext context, Employee e) {
   return showDialog(
     context: context,
     barrierDismissible: false,
@@ -77,7 +81,7 @@ Future _deleteUserDialog(BuildContext context, Employee u) {
           FlatButton(
             child: Text("OK"),
             onPressed: () {
-              //db update
+              DatabaseService().deleteEmployee(e);
               Navigator.of(context).pop();
             },
           )
