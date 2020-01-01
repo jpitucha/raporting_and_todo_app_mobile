@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/user.dart';
-import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/employeesList.dart';
 
@@ -12,7 +11,7 @@ class EmployeesPageState extends State<EmployeesPage>{
   String tmpRole = 'user';
   String tmpName = 'User';
 
-  Future<User> _addUserDialog(BuildContext context) async {
+  Future<Employee> _addUserDialog(BuildContext context) async {
     return showDialog(
       context: context,
       barrierDismissible: false,

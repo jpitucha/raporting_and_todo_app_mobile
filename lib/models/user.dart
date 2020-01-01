@@ -1,7 +1,7 @@
-class User {
+class Employee {
   final String uid;
   final String name;
   final String role;
 
-  User ({this.uid, this.name, this.role});
+  Employee ({this.uid, this.name, this.role});
 }

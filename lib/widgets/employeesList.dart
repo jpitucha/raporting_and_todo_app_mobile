@@ -4,12 +4,13 @@ import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/userTile.dart';
+import 'package:raporting_and_todo_app_mobile/widgets/wrapper.dart';
 
 class EmployeesList extends StatefulWidget {
   EmployeesListState createState() => EmployeesListState();
 }
 
-Future<User> _editUserDialog(BuildContext context, User u) {
+Future<Employee> _editUserDialog(BuildContext context, Employee u) {
   String tmpRole = u.role;
   String tmpName = u.name;
 
@@ -58,7 +59,7 @@ Future<User> _editUserDialog(BuildContext context, User u) {
   );
 }
 
-Future _deleteUserDialog(BuildContext context, User u) {
+Future _deleteUserDialog(BuildContext context, Employee u) {
   return showDialog(
     context: context,
     barrierDismissible: false,
@@ -89,11 +90,11 @@ Future _deleteUserDialog(BuildContext context, User u) {
 class EmployeesListState extends State<EmployeesList> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<User>>(
-      stream: DatabaseService().users,
+    return StreamBuilder<List<Employee>>(
+      stream: DatabaseService().employees,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<User> data = snapshot.data;
+          List<Employee> data = snapshot.data;
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {

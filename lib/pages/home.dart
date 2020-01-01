@@ -34,14 +34,9 @@ class HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "CZEŚĆ",
+                      "WITAJ!",
                       style: TextStyle(fontSize: 32.0),
                     ),
-                    Text("JAKUB", style: TextStyle(fontSize: 26.0)),
-                    Icon(
-                      Icons.person,
-                      size: 64.0,
-                    )
                   ],
                 ),
               ),

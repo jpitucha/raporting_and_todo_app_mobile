@@ -15,8 +15,8 @@ class DatabaseService {
       Firestore.instance.collection('senders');
   final CollectionReference screensCollection =
       Firestore.instance.collection('screens');
-  final CollectionReference usersCollection =
-      Firestore.instance.collection('users');
+  final CollectionReference employeesCollection =
+      Firestore.instance.collection('employees');
 
   List<Pack> _packListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
@@ -28,9 +28,9 @@ class DatabaseService {
     }).toList();
   }
 
-  List<User> _userListFromSnapshot(QuerySnapshot snapshot) {
+  List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
-      return User(
+      return Employee(
         uid: doc.data['id'],
         name: doc.data['name'],
         role: doc.data['role']
@@ -53,8 +53,8 @@ class DatabaseService {
     return shipmentsCollection.snapshots().map(_packListFromSnapshot);
   }
 
-  Stream<List<User>> get users {
-    return usersCollection.snapshots().map(_userListFromSnapshot);
+  Stream<List<Employee>> get employees {
+    return employeesCollection.snapshots().map(_employeeListFromSnapshot);
   }
 
   Stream<List<Task>> get tasks {
