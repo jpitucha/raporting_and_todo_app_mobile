@@ -24,7 +24,7 @@ class DatabaseService {
       return Pack(
           id: doc.data['id'],
           sender: doc.data['sender'],
-          date: DateTime.parse(doc.data['date'] + ' 00:00:00.000'),
+          date: doc.data['date'],
           status: doc.data['status']);
     }).toList();
   }
@@ -89,7 +89,7 @@ class DatabaseService {
 
   Future<String> addShipment(Pack p) async {
     DocumentReference dr = await shipmentsCollection
-        .add({'sender': p.sender, 'date': p.date.toString().split(" ").elementAt(0), 'status': p.status});
+        .add({'sender': p.sender, 'date': p.date, 'status': p.status});
     return dr.documentID;
   }
 

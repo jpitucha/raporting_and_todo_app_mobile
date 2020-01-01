@@ -1,7 +1,7 @@
 class Pack {
   String id;
   String sender;
-  DateTime date;
+  String date;
   String status;
 
   Pack({this.id, this.sender, this.date, this.status});

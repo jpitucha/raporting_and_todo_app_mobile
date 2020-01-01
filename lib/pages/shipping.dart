@@ -66,7 +66,7 @@ class ShippingPageState extends State<ShippingPage> {
                 child: Text("OK"),
                 onPressed: () async {
                   String id = await DatabaseService()
-                      .addShipment(Pack(id: null, sender: tmpSender, date: tmpDate, status: tmpStatus));
+                      .addShipment(Pack(id: null, sender: tmpSender, date: tmpDate.toString().split(' ').elementAt(0), status: tmpStatus));
                   await DatabaseService().editShipment(id: id);
                   Navigator.of(context).pop();
                 },

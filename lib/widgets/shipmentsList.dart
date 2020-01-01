@@ -6,8 +6,6 @@ import '../services/database.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
 
-enum ConfirmAction { CANCEL, ACCEPT }
-
 class ShipmentsList extends StatefulWidget {
   ShipmentsListState createState() => ShipmentsListState();
 }
@@ -16,7 +14,7 @@ class ShipmentsListState extends State<ShipmentsList> {
 
   Future<Pack> _editShipmentDialog(BuildContext context, Pack p) async {
     String tmpSender = p.sender;
-    String tmpDate = p.date.toString().split(" ").elementAt(0);
+    String tmpDate = p.date;
     String tmpStatus = p.status;
 
     return showDialog<Pack>(
@@ -54,7 +52,7 @@ class ShipmentsListState extends State<ShipmentsList> {
                   if (tmpSender != p.sender) {
                     DatabaseService().editShipment(id: p.id, sender: tmpSender);
                   }
-                  if (tmpDate != p.date.toString().split(" ").elementAt(0)) {
+                  if (tmpDate != p.date) {
                     DatabaseService().editShipment(id: p.id, date: tmpDate);
                   }
                   if (tmpStatus != p.status) {
@@ -68,8 +66,8 @@ class ShipmentsListState extends State<ShipmentsList> {
         });
   }
 
-  Future<ConfirmAction> _deleteShipmentDialog(BuildContext context, Pack p) async {
-    return showDialog<ConfirmAction>(
+  Future _deleteShipmentDialog(BuildContext context, Pack p) async {
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -80,14 +78,14 @@ class ShipmentsListState extends State<ShipmentsList> {
             FlatButton(
               child: const Text('ZAMKNIJ'),
               onPressed: () {
-                Navigator.of(context).pop(ConfirmAction.CANCEL);
+                Navigator.of(context).pop();
               },
             ),
             FlatButton(
               child: const Text('OK'),
               onPressed: () {
                 DatabaseService().deleteShipment(p);
-                Navigator.of(context).pop(ConfirmAction.ACCEPT);
+                Navigator.of(context).pop();
               },
             )
           ],
@@ -107,16 +105,10 @@ class ShipmentsListState extends State<ShipmentsList> {
           itemCount: data.length,
           itemBuilder: (BuildContext context, int index) {
             return ShipmentTile(
-                data.elementAt(index).sender +
-                    " - " + data
-                          .elementAt(index)
-                          .date
-                          .toString()
-                          .split(" ")
-                          .elementAt(0),
-                  data.elementAt(index).status,
-                  () => _editShipmentDialog(context, data.elementAt(index)),
-                  () => _deleteShipmentDialog(context, data.elementAt(index)));
+              data.elementAt(index).sender + " - " + data.elementAt(index).date,
+              data.elementAt(index).status,
+              () => _editShipmentDialog(context, data.elementAt(index)),
+              () => _deleteShipmentDialog(context, data.elementAt(index)));
             });
         } else {
           return Loading();

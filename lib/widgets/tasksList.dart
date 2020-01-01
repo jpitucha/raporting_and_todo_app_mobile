@@ -6,8 +6,6 @@ import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
 import '../widgets/taskTile.dart';
 
-enum ConfirmAction { CANCEL, ACCEPT }
-
 class TasksList extends StatefulWidget {
   TasksListState createState() => TasksListState();
 }
@@ -108,8 +106,8 @@ class TasksListState extends State<TasksList> {
     );
   }
 
-  Future<ConfirmAction> _deleteTaskDialog(BuildContext context, Task t) {
-    return showDialog<ConfirmAction>(
+  Future _deleteTaskDialog(BuildContext context, Task t) {
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -120,14 +118,14 @@ class TasksListState extends State<TasksList> {
             FlatButton(
               child: Text('ZAMKNIJ'),
               onPressed: () {
-                Navigator.of(context).pop(ConfirmAction.CANCEL);
+                Navigator.of(context).pop();
               },
             ),
             FlatButton(
               child: Text('OK'),
               onPressed: () {
                 DatabaseService().deleteTask(t);
-                Navigator.of(context).pop(ConfirmAction.ACCEPT);
+                Navigator.of(context).pop();
               },
             )
           ],
