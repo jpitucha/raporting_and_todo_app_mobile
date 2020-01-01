@@ -78,9 +78,7 @@ class ShippingPageState extends State<ShippingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<Pack>>.value(
-      value: DatabaseService().shipments,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('Przesyłki'),
         ),
@@ -91,7 +89,6 @@ class ShippingPageState extends State<ShippingPage> {
           onPressed: () => _addShipmentDialog(context),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      ),
-    );
+      );
   }
 }

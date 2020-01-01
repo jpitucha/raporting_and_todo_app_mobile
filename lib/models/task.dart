@@ -1,12 +1,12 @@
 class Task {
   String id;
-  String employee;
+  String user;
   String date;
   String content;
 
-  Task(this.id, this.employee, this.date, this.content);
+  Task({this.id, this.user, this.date, this.content});
 
   String toString() {
-    return '{ ${this.id}, ${this.employee}, ${this.date}, ${this.content} }';
+    return '{ ${this.id}, ${this.user}, ${this.date}, ${this.content} }';
   }
 }

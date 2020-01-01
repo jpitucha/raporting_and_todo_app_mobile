@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import '../models/task.dart';
 import '../models/pack.dart';
+import '../models/user.dart';
 
 class DatabaseService {
   final CollectionReference raportsCollection =
@@ -27,23 +29,62 @@ class DatabaseService {
     }).toList();
   }
 
+  List<User> _userListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return User(
+        uid: doc.data['id'],
+        name: doc.data['name'],
+        role: doc.data['role']
+      );
+    }).toList();
+  }
+
+  List<Task> _taskListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return Task(
+        id: doc.data['id'],
+        user: doc.data['user'],
+        date: doc.data['date'],
+        content: doc.data['content']
+      );
+    }).toList();
+  }
+
   Stream<List<Pack>> get shipments {
     return shipmentsCollection.snapshots().map(_packListFromSnapshot);
   }
 
+  Stream<List<User>> get users {
+    return usersCollection.snapshots().map(_userListFromSnapshot);
+  }
+
+  Stream<List<Task>> get tasks {
+    return tasksCollection.snapshots().map(_taskListFromSnapshot);
+  }
+
   Future<String> addTask(Task t) async {
     DocumentReference dr = await tasksCollection
-        .add({'employee': t.employee, 'date': t.date, 'content': t.content});
+        .add({'user': t.user, 'date': t.date, 'content': t.content});
     return dr.documentID;
   }
 
-  Future editTask(Task t) async {
-    await tasksCollection.document(t.id).setData(
-        {'employee': t.employee, 'date': t.date, 'content': t.content});
+  Future editTask({String id, String user = '', String date = '', String content = ''}) async {
+    if (user == '' && date == '' && content == '') {
+      await tasksCollection.document(id).updateData({'id': id});
+    }
+    if (user != '') {
+      await tasksCollection.document(id).updateData({'user': user});
+    }
+    if (date != '') {
+      await tasksCollection.document(id).updateData({'date': date});
+    }
+    if (content != '') {
+      await tasksCollection.document(id).updateData({'content': content});
+    }
   }
 
   Future deleteTask(Task t) async {
-    tasksCollection.document(t.id).delete();
+    await tasksCollection.document(t.id).delete();
   }
 
   Future<String> addShipment(Pack p) async {

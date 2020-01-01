@@ -8,7 +8,6 @@ import './pages/tasks.dart';
 import './pages/employees.dart';
 import './pages/screens.dart';
 import './pages/senders.dart';
-import './pages/login.dart';
 import './widgets/wrapper.dart';
 
 void main() => runApp(MyApp());

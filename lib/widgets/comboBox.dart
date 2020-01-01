@@ -17,7 +17,7 @@ class ComboBoxState extends State<ComboBox> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text("Status:"),
+        Text(widget.title),
         DropdownButton(
           value: widget.currentValue,
           onChanged: (String newValue) {
