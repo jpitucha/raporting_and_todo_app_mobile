@@ -3,6 +3,7 @@ import 'package:raporting_and_todo_app_mobile/models/user.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
+import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/userTile.dart';
 
 class EmployeesList extends StatefulWidget {
@@ -102,9 +103,10 @@ class EmployeesListState extends State<EmployeesList> {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
-              return UserTile(
-                name: data.elementAt(index).name,
-                role: data.elementAt(index).role,
+              return UniversalListTile(
+                title: data.elementAt(index).name,
+                subtitle: data.elementAt(index).role,
+                renderInfoIconButton: false,
                 onEditClicked: () => _editUserDialog(context, data.elementAt(index)),
                 onDeleteClicked: () => _deleteUserDialog(context, data.elementAt(index)),
               );

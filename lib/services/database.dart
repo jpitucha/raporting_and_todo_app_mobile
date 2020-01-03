@@ -54,7 +54,8 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       return Sender(
         id: doc.data['id'],
-        name: doc.data['name']
+        name: doc.data['name'],
+        address: doc.data['address']
       );
     }).toList();
   }
@@ -103,17 +104,21 @@ class DatabaseService {
   Future<String> addSender(Sender s) async {
     DocumentReference dr = await sendersCollection.add({
       'id': s.id,
-      'name': s.name
+      'name': s.name,
+      'address': s.address
     });
     return dr.documentID;
   }
 
-  Future editSender({String id, String name = ''}) async {
-    if (name == '') {
+  Future editSender({String id, String name = '', String address = ''}) async {
+    if (name == '' && address == '') {
       await sendersCollection.document(id).updateData({'id': id});
     }
     if (name != '') {
       await sendersCollection.document(id).updateData({'name': name});
+    }
+    if (address != '') {
+      await sendersCollection.document(id).updateData({'address': address});
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
+import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
 import '../widgets/taskTile.dart';
 
 class TasksList extends StatefulWidget {
@@ -144,10 +145,10 @@ class TasksListState extends State<TasksList> {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
-              return TaskTile(
-                user: data.elementAt(index).user,
-                date: data.elementAt(index).date,
-                content: data.elementAt(index).content,
+              return UniversalListTile(
+                title: data.elementAt(index).user + ' - ' + data.elementAt(index).date,
+                subtitle: data.elementAt(index).content,
+                renderInfoIconButton: true,
                 onInfoClicked: () => _infoTaskDialog(context, data.elementAt(index)),
                 onEditClicked: () => _editTaskDialog(context, data.elementAt(index)),
                 onDeleteClicked: () => _deleteTaskDialog(context, data.elementAt(index)),

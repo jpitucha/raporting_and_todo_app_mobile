@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
+import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
 import '../models/pack.dart';
 import '../widgets/shipmentTile.dart';
 import '../services/database.dart';
@@ -104,11 +105,13 @@ class ShipmentsListState extends State<ShipmentsList> {
           return ListView.builder(
           itemCount: data.length,
           itemBuilder: (BuildContext context, int index) {
-            return ShipmentTile(
-              data.elementAt(index).sender + " - " + data.elementAt(index).date,
-              data.elementAt(index).status,
-              () => _editShipmentDialog(context, data.elementAt(index)),
-              () => _deleteShipmentDialog(context, data.elementAt(index)));
+            return UniversalListTile(
+              title: data.elementAt(index).sender + " - " + data.elementAt(index).date,
+              subtitle: data.elementAt(index).status,
+              renderInfoIconButton: false,
+              onEditClicked: () => _editShipmentDialog(context, data.elementAt(index)),
+              onDeleteClicked: () => _deleteShipmentDialog(context, data.elementAt(index)),
+            );
             });
         } else {
           return Loading();
