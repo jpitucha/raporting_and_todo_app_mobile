@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/sender.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
-import 'package:raporting_and_todo_app_mobile/widgets/senderTile.dart';
 import '../widgets/universalListTile.dart';
 
 class SendersList extends StatefulWidget {

@@ -5,7 +5,6 @@ import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
-import '../widgets/taskTile.dart';
 
 class TasksList extends StatefulWidget {
   TasksListState createState() => TasksListState();

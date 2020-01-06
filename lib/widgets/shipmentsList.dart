@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
 import '../models/pack.dart';
-import '../widgets/shipmentTile.dart';
 import '../services/database.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';

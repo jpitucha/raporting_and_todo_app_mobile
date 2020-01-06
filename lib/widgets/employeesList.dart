@@ -4,7 +4,6 @@ import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
-import 'package:raporting_and_todo_app_mobile/widgets/userTile.dart';
 
 class EmployeesList extends StatefulWidget {
   EmployeesListState createState() => EmployeesListState();

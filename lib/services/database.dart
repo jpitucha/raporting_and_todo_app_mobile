@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:raporting_and_todo_app_mobile/models/screen.dart';
 import 'package:raporting_and_todo_app_mobile/models/sender.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import '../models/task.dart';
 import '../models/pack.dart';
 import '../models/user.dart';
@@ -18,6 +20,8 @@ class DatabaseService {
       Firestore.instance.collection('screens');
   final CollectionReference employeesCollection =
       Firestore.instance.collection('employees');
+
+  
 
   List<Pack> _packListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
@@ -60,6 +64,16 @@ class DatabaseService {
     }).toList();
   }
 
+  List<Screen> _screenListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return Screen(
+        id: doc.data['id'],
+        name: doc.data['name'],
+        owner: doc.data['owner']
+      );
+    }).toList();
+  }
+
   Stream<List<Pack>> get shipments {
     return shipmentsCollection.snapshots().map(_packListFromSnapshot);
   }
@@ -74,6 +88,24 @@ class DatabaseService {
 
   Stream<List<Sender>> get senders {
     return sendersCollection.snapshots().map(_senderListFromSnapshot);
+  }
+
+  Stream<List<Screen>> get screens {
+    return screensCollection.snapshots().map(_screenListFromSnapshot);
+  }
+
+  Future updateLocalScreens() async {
+    List<Screen> tmp = List<Screen>();
+    QuerySnapshot snapshot = await screensCollection.getDocuments();
+    tmp = snapshot.documents.map((doc) => Screen(id: doc.data['id'], name: doc.data['name'], owner: doc.data['owner'])).toList();
+    Store().screens = tmp;
+  }
+
+  Future updateLocalSenders() async {
+    List<Sender> tmp = List<Sender>();
+    QuerySnapshot snapshot = await sendersCollection.getDocuments();
+    tmp = snapshot.documents.map((doc) => Sender(id: doc.data['id'], name: doc.data['name'], address: doc.data['address'])).toList();
+    Store().senders = tmp;
   }
 
   Future<String> addEmployee(Employee e) async {
@@ -174,5 +206,29 @@ class DatabaseService {
 
   Future deleteShipment(Pack p) async {
     await shipmentsCollection.document(p.id).delete();
+  }
+
+  Future<String> addScreen(Screen s) async {
+    DocumentReference dr =  await screensCollection.add({
+      'name': s.name,
+      'owner': s.owner
+    });
+    return dr.documentID;
+  }
+
+  Future editScreen({String id, String name = '', String owner = ''}) async {
+    if (name == '' && owner == '') {
+      await screensCollection.document(id).updateData({'id': id});
+    }
+    if (name != '') {
+      await screensCollection.document(id).updateData({'name': name});
+    }
+    if (owner != '') {
+      await screensCollection.document(id).updateData({'owner': owner});
+    }
+  }
+
+  Future deleteScreen(Screen s) async {
+    await screensCollection.document(s.id).delete();
   }
 }
