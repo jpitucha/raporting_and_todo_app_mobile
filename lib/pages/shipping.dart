@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/shipmentsList.dart';
 import '../widgets/comboBox.dart';
 import '../widgets/daySelector.dart';
@@ -10,21 +11,17 @@ class ShippingPage extends StatefulWidget {
 }
 
 class ShippingPageState extends State<ShippingPage> {
-  final List<String> companies = List<String>();
   final List<String> statuses = List<String>();
 
   @override
   void initState() {
-    companies.add("Company 1");
-    companies.add("Company 2");
-    companies.add("Company 3");
     statuses.add("W trakcie");
     statuses.add("Oczekująca");
     super.initState();
   }
 
   Future<Pack> _addShipmentDialog(BuildContext context) async {
-    String tmpSender = companies.elementAt(0);
+    String tmpSender = Store().senders.elementAt(0).name;
     String tmpStatus = statuses.elementAt(0);
     DateTime tmpDate = DateTime.now();
 
@@ -37,7 +34,7 @@ class ShippingPageState extends State<ShippingPage> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                ComboBox("Nadawca:", tmpSender, companies, (String newValue) {
+                ComboBox("Nadawca:", tmpSender, Store().senders.map((s) => s.name).toList(), (String newValue) {
                   if (newValue != null) {
                     tmpSender = newValue;
                   }
@@ -75,6 +72,8 @@ class ShippingPageState extends State<ShippingPage> {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService().updateLocalSenders();
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Przesyłki'),

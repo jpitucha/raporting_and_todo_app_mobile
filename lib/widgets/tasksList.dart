@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/task.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
@@ -11,17 +12,6 @@ class TasksList extends StatefulWidget {
 }
 
 class TasksListState extends State<TasksList> {
-  final List<String> users = List<String>();
-
-  @override
-  void initState() {
-    users.add("User 1");
-    users.add("User 2");
-    users.add("User 3");
-    users.add("User 4");
-    users.add("User 5");
-    super.initState();
-  }
 
   Future _infoTaskDialog(BuildContext context, Task t) {
     return showDialog(
@@ -61,7 +51,7 @@ class TasksListState extends State<TasksList> {
               DaySelector(DateTime.parse(tmpDate + ' 00:00:00.000'), (DateTime newValue) {
                 tmpDate = newValue.toString().split(' ').elementAt(0);
               }),
-              ComboBox("Kto", tmpUser, users, (String newValue) {
+              ComboBox("Kto", tmpUser, Store().employees.map((doc) => doc.name).toList(), (String newValue) {
                 tmpUser = newValue;
               }),
               TextFormField(

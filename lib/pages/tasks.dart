@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/task.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/tasksList.dart';
@@ -10,20 +11,9 @@ class TasksPage extends StatefulWidget {
 }
 
 class TasksPageState extends State<TasksPage> {
-  final List<String> users = List<String>();
-
-  @override
-  void initState() {
-    users.add("User 1");
-    users.add("User 2");
-    users.add("User 3");
-    users.add("User 4");
-    users.add("User 5");
-    super.initState();
-  }
 
   Future<Task> _addTaskDialog(BuildContext context) async {
-    String tmpUser = users.elementAt(0);
+    String tmpUser = Store().employees.elementAt(0).name;
     DateTime tmpDate = DateTime.now();
     String tmpContent = '';
 
@@ -39,7 +29,7 @@ class TasksPageState extends State<TasksPage> {
               DaySelector(tmpDate, (DateTime newValue) {
                 tmpDate = newValue;
               }),
-              ComboBox("Kto", tmpUser, users, (String newValue) {
+              ComboBox("Kto", tmpUser, Store().employees.map((doc) => doc.name).toList(), (String newValue) {
                 tmpUser = newValue;
               }),
               TextFormField(
@@ -79,6 +69,8 @@ class TasksPageState extends State<TasksPage> {
   
   @override
   Widget build(BuildContext context) {
+    DatabaseService().updateLocalEmployees();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Zadania'),

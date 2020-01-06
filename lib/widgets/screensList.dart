@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/screen.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
@@ -36,7 +37,7 @@ class ScreensListState extends State<ScreensList> {
               ComboBox("Pitch", tmpName, pitches, (String newValue) {
                 tmpName = newValue;
               }),
-              ComboBox("Właściciel", tmpOwner, ['Nadawca 1', 'Nadawca 2'], (String newValue) {
+              ComboBox("Właściciel", tmpOwner, Store().senders.map((s) => s.name).toList(), (String newValue) {
                 tmpOwner = newValue;
               })
             ],

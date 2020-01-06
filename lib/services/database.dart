@@ -108,6 +108,13 @@ class DatabaseService {
     Store().senders = tmp;
   }
 
+  Future updateLocalEmployees() async {
+    List<Employee> tmp = List<Employee>();
+    QuerySnapshot snapshot = await employeesCollection.getDocuments();
+    tmp = _employeeListFromSnapshot(snapshot);
+    Store().employees = tmp;
+  }
+
   Future<String> addEmployee(Employee e) async {
     DocumentReference dr = await employeesCollection.add({
       'id': e.id,

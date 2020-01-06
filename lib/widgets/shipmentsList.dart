@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
 import '../models/pack.dart';
@@ -24,7 +25,7 @@ class ShipmentsListState extends State<ShipmentsList> {
           return AlertDialog(
             title: Text("Edytuj przesyłkę"),
             content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              ComboBox("Nadawca:", tmpSender, ['Company 1', 'Company 2', 'Company 3'], (String newValue) {
+              ComboBox("Nadawca:", tmpSender, Store().senders.map((s) => s.name).toList(), (String newValue) {
                 setState(() {
                   tmpSender = newValue;
                 });

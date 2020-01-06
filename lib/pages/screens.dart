@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/screen.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/screensList.dart';
 
@@ -21,7 +22,7 @@ class ScreensPageState extends State<ScreensPage> {
 
   Future _addScreenDialog(BuildContext context) {
     String tmpPitch = pitches.elementAt(0);
-    String tmpOwner = "Nadawca 1";
+    String tmpOwner = Store().senders.elementAt(0).name;
 
     return showDialog(
         context: context,
@@ -37,7 +38,7 @@ class ScreensPageState extends State<ScreensPage> {
                   tmpPitch = newValue;
                 }),
                 ComboBox("Właściciel", tmpOwner,
-                    ['Nadawca 1', 'Nadawca 2', 'Nadawca 3'], (String newValue) {
+                    Store().senders.map((s) => s.name).toList(), (String newValue) {
                   tmpOwner = newValue;
                 })
               ],
@@ -64,6 +65,8 @@ class ScreensPageState extends State<ScreensPage> {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService().updateLocalSenders();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Ekrany"),
