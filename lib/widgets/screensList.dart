@@ -104,6 +104,7 @@ class ScreensListState extends State<ScreensList> {
                 title: data.elementAt(index).name,
                 subtitle: data.elementAt(index).owner,
                 renderInfoIconButton: false,
+                renderEditDeleteIconButton: Store().myRole == 'admin' ? true : false,
                 onEditClicked: () => _editScreenDialog(context, data.elementAt(index)),
                 onDeleteClicked: () => _deleteScreenDialog(context, data.elementAt(index)),
               );

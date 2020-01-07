@@ -113,6 +113,7 @@ class DatabaseService {
     QuerySnapshot snapshot = await employeesCollection.getDocuments();
     tmp = _employeeListFromSnapshot(snapshot);
     Store().employees = tmp;
+    Store().getMyInfo();
   }
 
   Future<String> addEmployee(Employee e) async {

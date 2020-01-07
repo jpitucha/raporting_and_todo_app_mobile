@@ -72,7 +72,7 @@ class ScreensPageState extends State<ScreensPage> {
         title: Text("Ekrany"),
       ),
       body: ScreensList(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Store().myRole == null || Store().myRole == 'user' ? Container() : FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
         onPressed: () => _addScreenDialog(context),

@@ -109,6 +109,7 @@ class ShipmentsListState extends State<ShipmentsList> {
               title: data.elementAt(index).sender + " - " + data.elementAt(index).date,
               subtitle: data.elementAt(index).status,
               renderInfoIconButton: false,
+              renderEditDeleteIconButton: true,
               onEditClicked: () => _editShipmentDialog(context, data.elementAt(index)),
               onDeleteClicked: () => _deleteShipmentDialog(context, data.elementAt(index)),
             );

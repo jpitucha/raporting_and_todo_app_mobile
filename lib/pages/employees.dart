@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/user.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/employeesList.dart';
 
@@ -47,9 +48,11 @@ class EmployeesPageState extends State<EmployeesPage>{
             FlatButton(
               child: Text("OK"),
               onPressed: () async {
-                String id = await DatabaseService().addEmployee(Employee(id: null, role: tmpRole, name: tmpName));
-                await DatabaseService().editEmployee(id: id);
-                Navigator.of(context).pop();
+                if (tmpName != '') {
+                  String id = await DatabaseService().addEmployee(Employee(id: null, role: tmpRole, name: tmpName));
+                  await DatabaseService().editEmployee(id: id);
+                  Navigator.of(context).pop();
+                }
               },
             )
           ],
@@ -65,7 +68,7 @@ class EmployeesPageState extends State<EmployeesPage>{
         title: Text("Pracownicy"),
       ),
       body: EmployeesList(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Store().myRole == null || Store().myRole == 'user' ? Container() : FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
         onPressed: () => _addUserDialog(context),

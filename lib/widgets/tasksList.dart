@@ -78,7 +78,8 @@ class TasksListState extends State<TasksList> {
             FlatButton(
               child: Text("OK"),
               onPressed: () {
-                if (tmpUser != t.user) {
+                if (tmpContent != '') {
+                  if (tmpUser != t.user) {
                   DatabaseService().editTask(id: t.id, user: tmpUser);
                 }
                 if (tmpDate != t.date) {
@@ -88,6 +89,7 @@ class TasksListState extends State<TasksList> {
                   DatabaseService().editTask(id: t.id, content: tmpContent);
                 }
                 Navigator.of(context).pop();
+                }
               },
             )
           ],
@@ -138,6 +140,7 @@ class TasksListState extends State<TasksList> {
                 title: data.elementAt(index).user + ' - ' + data.elementAt(index).date,
                 subtitle: data.elementAt(index).content,
                 renderInfoIconButton: true,
+                renderEditDeleteIconButton: true,
                 onInfoClicked: () => _infoTaskDialog(context, data.elementAt(index)),
                 onEditClicked: () => _editTaskDialog(context, data.elementAt(index)),
                 onDeleteClicked: () => _deleteTaskDialog(context, data.elementAt(index)),

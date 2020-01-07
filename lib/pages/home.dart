@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/services/auth.dart';
+import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import '../widgets/iconTile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -9,6 +11,13 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final storage = FlutterSecureStorage();
+
+  @override
+  void initState() {
+    DatabaseService().updateLocalEmployees();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +45,10 @@ class HomePageState extends State<HomePage> {
                     Text(
                       "WITAJ!",
                       style: TextStyle(fontSize: 32.0),
+                    ),
+                    Text(
+                      Store().myName ?? '',
+                      style: TextStyle(fontSize: 24.0),
                     ),
                   ],
                 ),

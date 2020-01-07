@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/sender.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import '../widgets/universalListTile.dart';
 
@@ -53,10 +54,12 @@ class SendersListState extends State<SendersList> {
               FlatButton(
                 child: Text("OK"),
                 onPressed: () async {
-                  if (tmpName != s.name) {
-                    await DatabaseService().editSender(id: s.id, name: tmpName, address: tmpAddress);
+                  if (tmpAddress != '' && tmpName != '') {
+                    if (tmpName != s.name) {
+                      await DatabaseService().editSender(id: s.id, name: tmpName, address: tmpAddress);
+                    }
+                    Navigator.of(context).pop();
                   }
-                  Navigator.of(context).pop();
                 },
               )
             ],
@@ -104,11 +107,10 @@ class SendersListState extends State<SendersList> {
               return UniversalListTile(
                 title: data.elementAt(index).name,
                 subtitle: data.elementAt(index).address,
-                onEditClicked: () =>
-                    _editSenderDialog(context, data.elementAt(index)),
-                onDeleteClicked: () =>
-                    _deleteSenderDialog(context, data.elementAt(index)),
                 renderInfoIconButton: false,
+                renderEditDeleteIconButton: Store().myRole == 'admin' ? true : false,
+                onEditClicked: () => _editSenderDialog(context, data.elementAt(index)),
+                onDeleteClicked: () => _deleteSenderDialog(context, data.elementAt(index)),
               );
             },
           );

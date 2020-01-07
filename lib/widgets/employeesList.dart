@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/user.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/shared/loading.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/comboBox.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/universalListTile.dart';
@@ -48,13 +49,15 @@ Future<Employee> _editUserDialog(BuildContext context, Employee e) {
           FlatButton(
             child: Text("OK"),
             onPressed: () {
-              if (tmpRole != e.role) {
-                DatabaseService().editEmployee(id: e.id, role: tmpRole);
+              if (tmpName != '') {
+                if (tmpRole != e.role) {
+                  DatabaseService().editEmployee(id: e.id, role: tmpRole);
+                }
+                if (tmpName != e.name) {
+                  DatabaseService().editEmployee(id: e.id, name: tmpName);
+                }
+                Navigator.of(context).pop();
               }
-              if (tmpName != e.name) {
-                DatabaseService().editEmployee(id: e.id, name: tmpName);
-              }
-              Navigator.of(context).pop();
             },
           )
         ],
@@ -106,6 +109,7 @@ class EmployeesListState extends State<EmployeesList> {
                 title: data.elementAt(index).name,
                 subtitle: data.elementAt(index).role,
                 renderInfoIconButton: false,
+                renderEditDeleteIconButton: Store().myRole == 'admin' ? true : false,
                 onEditClicked: () => _editUserDialog(context, data.elementAt(index)),
                 onDeleteClicked: () => _deleteUserDialog(context, data.elementAt(index)),
               );

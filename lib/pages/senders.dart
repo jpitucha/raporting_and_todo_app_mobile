@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raporting_and_todo_app_mobile/models/sender.dart';
 import 'package:raporting_and_todo_app_mobile/services/database.dart';
+import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/sendersList.dart';
 
 class SendersPage extends StatefulWidget {
@@ -50,10 +51,12 @@ class SendersPageState extends State<SendersPage> {
               FlatButton(
                 child: Text("OK"),
                 onPressed: () async {
-                  String id = await DatabaseService()
-                      .addSender(Sender(id: null, name: tmpName, address: tmpAddress));
-                  await DatabaseService().editSender(id: id);
-                  Navigator.of(context).pop();
+                  if (tmpAddress != '' && tmpName != '') {
+                    String id = await DatabaseService()
+                        .addSender(Sender(id: null, name: tmpName, address: tmpAddress));
+                    await DatabaseService().editSender(id: id);
+                    Navigator.of(context).pop();
+                  }
                 },
               )
             ],
@@ -68,7 +71,7 @@ class SendersPageState extends State<SendersPage> {
         title: Text("Nadawcy"),
       ),
       body: SendersList(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Store().myRole == null || Store().myRole == 'user' ? Container() : FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
         onPressed: () => _addSenderDialog(context),

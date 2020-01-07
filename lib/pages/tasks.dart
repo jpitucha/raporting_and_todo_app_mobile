@@ -55,10 +55,12 @@ class TasksPageState extends State<TasksPage> {
             FlatButton(
               child: Text("OK"),
               onPressed: () async {
-                String id = await DatabaseService()
-                .addTask(Task(id: null, user: tmpUser, date: tmpDate.toString().split(' ').elementAt(0), content: tmpContent));
-                await DatabaseService().editTask(id: id);
-                Navigator.of(context).pop();
+                if (tmpContent != '') {
+                  String id = await DatabaseService()
+                  .addTask(Task(id: null, user: tmpUser, date: tmpDate.toString().split(' ').elementAt(0), content: tmpContent));
+                  await DatabaseService().editTask(id: id);
+                  Navigator.of(context).pop();
+                }
               },
             )
           ],
