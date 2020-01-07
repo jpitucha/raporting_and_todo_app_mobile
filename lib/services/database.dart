@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:raporting_and_todo_app_mobile/models/raport.dart';
 import 'package:raporting_and_todo_app_mobile/models/screen.dart';
 import 'package:raporting_and_todo_app_mobile/models/sender.dart';
 import 'package:raporting_and_todo_app_mobile/services/store.dart';
@@ -21,7 +22,16 @@ class DatabaseService {
   final CollectionReference employeesCollection =
       Firestore.instance.collection('employees');
 
-  
+  List<Raport> _raportListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return Raport(
+        id: doc.data['id'],
+        user: doc.data['user'],
+        date: doc.data['date'],
+        content: doc.data['content']
+      );
+    }).toList();
+  }
 
   List<Pack> _packListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
@@ -72,6 +82,10 @@ class DatabaseService {
         owner: doc.data['owner']
       );
     }).toList();
+  }
+
+  Stream<List<Raport>> get raports {
+    return raportsCollection.snapshots().map(_raportListFromSnapshot);
   }
 
   Stream<List<Pack>> get shipments {
@@ -238,5 +252,34 @@ class DatabaseService {
 
   Future deleteScreen(Screen s) async {
     await screensCollection.document(s.id).delete();
+  }
+
+  Future<String> addRaport(Raport r) async {
+    DocumentReference dr = await raportsCollection.add({
+      'id': r.id,
+      'user': r.user,
+      'date': r.date,
+      'content': r.content
+    });
+    return dr.documentID;
+  }
+
+  Future editRaport({String id, String user = '', String date = '', String content = ''}) async {
+    if (user == '' && date == '' && content == '') {
+      await raportsCollection.document(id).updateData({'id': id});
+    }
+    if (user != '') {
+      await raportsCollection.document(id).updateData({'user': user});
+    }
+    if (date != '') {
+      await raportsCollection.document(id).updateData({'date': date});
+    }
+    if (content != '') {
+      await raportsCollection.document(id).updateData({'content': content});
+    }
+  }
+
+  Future deleteRaport(Raport r) async {
+    await raportsCollection.document(r.id).delete();
   }
 }
