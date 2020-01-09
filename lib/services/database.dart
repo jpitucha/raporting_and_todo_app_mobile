@@ -256,7 +256,6 @@ class DatabaseService {
 
   Future<String> addRaport(Raport r) async {
     DocumentReference dr = await raportsCollection.add({
-      'id': r.id,
       'user': r.user,
       'date': r.date,
       'content': r.content

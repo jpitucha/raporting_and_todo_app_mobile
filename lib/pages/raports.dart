@@ -4,6 +4,7 @@ import 'package:raporting_and_todo_app_mobile/services/database.dart';
 import 'package:raporting_and_todo_app_mobile/services/store.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/counterListTile.dart';
 import 'package:raporting_and_todo_app_mobile/widgets/daySelector.dart';
+import 'package:raporting_and_todo_app_mobile/widgets/raportsList.dart';
 
 class RaportsPage extends StatefulWidget {
   RaportsPageState createState() => RaportsPageState();
@@ -13,10 +14,11 @@ class RaportsPageState extends State<RaportsPage> {
   Future<Raport> _addRaportDialog(BuildContext context) {
     DateTime tmpDate = DateTime.now();
 
+    List<Map<String, dynamic>> tmpValues = List<Map<String, dynamic>>();
     List<Map<String, dynamic>> values = List<Map<String, dynamic>>();
 
     Store().screens.forEach((el) => {
-      values.add({
+      tmpValues.add({
         'name': el.name + ' - ' + el.owner,
         'count': 0
       })
@@ -42,8 +44,7 @@ class RaportsPageState extends State<RaportsPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return CounterListTile(name: Store().screens.elementAt(index).name
                   + ' - ' + Store().screens.elementAt(index).owner, onCountChanged: (int newValue) {
-                    values.elementAt(index)['count'] = newValue;
-                    print(values);
+                    tmpValues.elementAt(index)['count'] = newValue;
                   },);
                 },
               ),
@@ -60,9 +61,20 @@ class RaportsPageState extends State<RaportsPage> {
             ),
             FlatButton(
               child: Text("OK"),
-              onPressed: () {
-                //db update
-                Navigator.of(context).pop();
+              onPressed: () async {
+                bool dataAdded = false;
+                for (int i = 0; i < tmpValues.length; i++) {
+                  if (tmpValues.elementAt(i)['count'] > 0) {
+                    dataAdded = true;
+                    values.add(tmpValues.elementAt(i));
+                    break;
+                  }
+                }
+                if (dataAdded) {
+                  String id = await DatabaseService().addRaport(Raport(id: null, user: Store().myName, date: tmpDate.toString().split(' ').elementAt(0), content: values.toString()));
+                  await DatabaseService().editRaport(id: id);
+                  Navigator.of(context).pop();
+                }
               },
             )
           ],
@@ -78,14 +90,7 @@ class RaportsPageState extends State<RaportsPage> {
       appBar: AppBar(
         title: Text('Raporty'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Text('Raporty')
-          ],
-        ),
-      ),
+      body: RaportsList(),
       floatingActionButton: Store().myRole == null || Store().myRole == 'user' ? Container() : FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
