@@ -57,7 +57,7 @@ class TasksPageState extends State<TasksPage> {
               onPressed: () async {
                 if (tmpContent != '') {
                   String id = await DatabaseService()
-                  .addTask(Task(id: null, user: tmpUser, date: tmpDate.toString().split(' ').elementAt(0), content: tmpContent));
+                  .addTask(Task(id: null, user: tmpUser, date: tmpDate.toString().split(' ').elementAt(0), content: tmpContent, timeStamp: new DateTime.now().millisecondsSinceEpoch.toString()));
                   await DatabaseService().editTask(id: id);
                   Navigator.of(context).pop();
                 }

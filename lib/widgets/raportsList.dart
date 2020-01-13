@@ -73,7 +73,7 @@ class RaportsListState extends State<RaportsList> {
                 height: 200,
                 width: 300,
                 child: ListView.builder(
-                  itemCount: Store().screens.length,
+                  itemCount: stage2.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CounterListTile(name: stage2.elementAt(index)['name'], count: int.parse(stage2.elementAt(index)['count']),
                     onCountChanged: (int newValue) {

@@ -133,6 +133,7 @@ class TasksListState extends State<TasksList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Task> data = snapshot.data;
+          data.sort((b, a) => a.timeStamp.compareTo(b.timeStamp));
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {

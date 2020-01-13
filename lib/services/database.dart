@@ -59,7 +59,8 @@ class DatabaseService {
         id: doc.data['id'],
         user: doc.data['user'],
         date: doc.data['date'],
-        content: doc.data['content']
+        content: doc.data['content'],
+        timeStamp: doc.data['timestamp']
       );
     }).toList();
   }
@@ -182,12 +183,12 @@ class DatabaseService {
 
   Future<String> addTask(Task t) async {
     DocumentReference dr = await tasksCollection
-        .add({'user': t.user, 'date': t.date, 'content': t.content});
+        .add({'user': t.user, 'date': t.date, 'content': t.content, 'timestamp': t.timeStamp});
     return dr.documentID;
   }
 
-  Future editTask({String id, String user = '', String date = '', String content = ''}) async {
-    if (user == '' && date == '' && content == '') {
+  Future editTask({String id, String user = '', String date = '', String content = '', String timestamp = ''}) async {
+    if (user == '' && date == '' && content == '' && timestamp == '') {
       await tasksCollection.document(id).updateData({'id': id});
     }
     if (user != '') {
@@ -198,6 +199,9 @@ class DatabaseService {
     }
     if (content != '') {
       await tasksCollection.document(id).updateData({'content': content});
+    }
+    if (timestamp != '') {
+      await tasksCollection.document(id).updateData({'timestamp': timestamp});      
     }
   }
 

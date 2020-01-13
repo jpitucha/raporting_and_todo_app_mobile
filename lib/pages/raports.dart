@@ -67,7 +67,6 @@ class RaportsPageState extends State<RaportsPage> {
                   if (tmpValues.elementAt(i)['count'] > 0) {
                     dataAdded = true;
                     values.add(tmpValues.elementAt(i));
-                    break;
                   }
                 }
                 if (dataAdded) {

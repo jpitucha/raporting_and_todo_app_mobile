@@ -3,10 +3,11 @@ class Task {
   String user;
   String date;
   String content;
+  String timeStamp;
 
-  Task({this.id, this.user, this.date, this.content});
+  Task({this.id, this.user, this.date, this.content, this.timeStamp});
 
   String toString() {
-    return '{ ${this.id}, ${this.user}, ${this.date}, ${this.content} }';
+    return '{ ${this.id}, ${this.user}, ${this.date}, ${this.content}, ${this.timeStamp} }';
   }
 }
