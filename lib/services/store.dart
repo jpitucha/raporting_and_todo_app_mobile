@@ -1,3 +1,5 @@
+import 'package:raporting_and_todo_app_mobile/models/raport.dart';
+
 import '../models/screen.dart';
 import '../models/sender.dart';
 import '../models/user.dart';
@@ -7,6 +9,7 @@ class Store {
   List<Screen> screens = List<Screen>();
   List<Sender> senders = List<Sender>();
   List<Employee> employees = List<Employee>();
+  List<Raport> raports = List<Raport>();
   String myUID;
   String myName;
   String myRole;

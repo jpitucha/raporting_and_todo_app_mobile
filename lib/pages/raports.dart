@@ -11,6 +11,39 @@ class RaportsPage extends StatefulWidget {
 }
 
 class RaportsPageState extends State<RaportsPage> {
+
+  bool isTodayRaportAdded() {
+    DateTime now = DateTime.now();
+    bool result = false;
+    for (int i = 0; i < Store().raports.length; i++) {
+      if (Store().raports.elementAt(i).date == now.toString().split(' ').elementAt(0)) {
+        result = true;
+      }
+    }
+    return result;
+  }
+
+  Future _raportAddedDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Info"),
+          content: Text("Raport na ten dzień już został dodany"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
+
   Future<Raport> _addRaportDialog(BuildContext context) {
     DateTime tmpDate = DateTime.now();
 
@@ -70,9 +103,14 @@ class RaportsPageState extends State<RaportsPage> {
                   }
                 }
                 if (dataAdded) {
-                  String id = await DatabaseService().addRaport(Raport(id: null, user: Store().myName, date: tmpDate.toString().split(' ').elementAt(0), content: values.toString()));
-                  await DatabaseService().editRaport(id: id);
-                  Navigator.of(context).pop();
+                  if (isTodayRaportAdded()) {
+                    _raportAddedDialog(context);
+                  } else {
+                    String id = await DatabaseService().addRaport(Raport(id: null, user: Store().myName, date: tmpDate.toString().split(' ').elementAt(0), content: values.toString()));
+                    await DatabaseService().editRaport(id: id);
+                    Navigator.of(context).pop();
+                  }
+                  
                 }
               },
             )

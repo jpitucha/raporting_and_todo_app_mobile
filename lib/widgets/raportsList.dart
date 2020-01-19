@@ -13,6 +13,37 @@ class RaportsList extends StatefulWidget {
 
 class RaportsListState extends State<RaportsList> {
 
+  bool isTodayRaportAdded(DateTime d) {
+    bool result = false;
+    for (int i = 0; i < Store().raports.length; i++) {
+      if (Store().raports.elementAt(i).date == d.toString().split(' ').elementAt(0)) {
+        result = true;
+      }
+    }
+    return result;
+  }
+
+  Future _raportAddedDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Info"),
+          content: Text("Raport na ten dzień już został dodany"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
+
   Future _infoRaportDialog(BuildContext context, Raport r) {
     return showDialog(
       context: context,
@@ -94,8 +125,12 @@ class RaportsListState extends State<RaportsList> {
             FlatButton(
               child: Text("OK"),
               onPressed: () {
-                DatabaseService().editRaport(id: r.id, date: tmpDate.toString().split(' ').elementAt(0), content: stage2.toString());
-                Navigator.of(context).pop();
+                if (isTodayRaportAdded(tmpDate)) {
+                  _raportAddedDialog(context);
+                } else {
+                  DatabaseService().editRaport(id: r.id, date: tmpDate.toString().split(' ').elementAt(0), content: stage2.toString());
+                  Navigator.of(context).pop();
+                }
               },
             )
           ],
@@ -139,6 +174,7 @@ class RaportsListState extends State<RaportsList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Raport> data = snapshot.data;
+          Store().raports = data;
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
